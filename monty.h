@@ -49,7 +49,7 @@ void handle_error(unsigned int line_number, const char *message);
 void handle_malloc_error(void);
 void free_stack(stack_t *stack);
 
-
+void queue(stack_t **stack, unsigned int line_number)
 void init_stack(void);
 void parse_line(char *line, unsigned int line_number);
 
