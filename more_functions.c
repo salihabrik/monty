@@ -1,64 +1,51 @@
 #include "monty.h"
-
 /**
- * pint - Prints the value at the top of the stack
- * @stack: Double pointer to the top of the stack
- * @line_number: Line number in the Monty bytecode file
- */
-void pint(stack_t **stack, unsigned int line_number)
+ * fpint - prints the top
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void fpint(stack_t **head, unsigned int counter)
 {
-	if (*stack == NULL)
+	if (*head == NULL)
 	{
-		free_stack(*stack);
-		error_stack_empty(line_number, "pint");
+		fprintf(stderr, "L%u: can't pint, stack empty\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
+		exit(EXIT_FAILURE);
 	}
-
-	printf("%d\n", (*stack)->n);
+	printf("%d\n", (*head)->n);
 }
 
 
-
 /**
- * pop - Removes the top element of the stack
- * @stack: Double pointer to the top of the stack
- * @line_number: Line number in the Monty bytecode file
- */
-void pop(stack_t **stack, unsigned int line_number)
+ * fswap - adds the top two elements of the stack.
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void fswap(stack_t **head, unsigned int counter)
 {
-	stack_t *temp;
+	stack_t *h;
+	int len = 0, aux;
 
-	if (*stack == NULL)
+	h = *head;
+	while (h)
 	{
-		free_stack(*stack);
-		error_pop_empty(line_number);
+		h = h->next;
+		len++;
 	}
-
-	temp = *stack;
-	*stack = (*stack)->next;
-	if (*stack != NULL)
-		(*stack)->prev = NULL;
-	free(temp);
-}
-
-
-
-
-/**
- * swap - Swaps the top two elements of the stack
- * @stack: Double pointer to the top of the stack
- * @line_number: Line number in the Monty bytecode file
- */
-void swap(stack_t **stack, unsigned int line_number)
-{
-	int temp;
-
-	if (*stack == NULL || (*stack)->next == NULL)
+	if (len < 2)
 	{
-		free_stack(*stack);
-		error_swap_short(line_number);
+		fprintf(stderr, "L%d: can't swap, stack too short\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
+		exit(EXIT_FAILURE);
 	}
-
-	temp = (*stack)->n;
-	(*stack)->n = (*stack)->next->n;
-	(*stack)->next->n = temp;
+	h = *head;
+	aux = h->n;
+	h->n = h->next->n;
+	h->next->n = aux;
 }

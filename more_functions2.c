@@ -1,37 +1,49 @@
 #include "monty.h"
-
 /**
- * add - Adds the top two elements of the stack
- * @stack: Double pointer to the top of the stack
- * @line_number: Line number in the Monty bytecode file
- */
-void add(stack_t **stack, unsigned int line_number)
+ * fadd - adds the top two elements of the stack.
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void fadd(stack_t **head, unsigned int counter)
 {
-	stack_t *temp;
+	stack_t *h;
+	int len = 0, aux;
 
-	if (*stack == NULL || (*stack)->next == NULL)
+	h = *head;
+	while (h)
 	{
-		free_stack(*stack);
-		error_add_short(line_number);
+		h = h->next;
+		len++;
 	}
+	if (len < 2)
+	{
+		fprintf(stderr, "L%d: can't add, stack too short\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
+		exit(EXIT_FAILURE);
+	}
+	h = *head;
+	aux = h->n + h->next->n;
+	h->next->n = aux;
+	*head = h->next;
+	free(h);
 
-	(*stack)->next->n += (*stack)->n;
-	temp = *stack;
-	*stack = (*stack)->next;
-	(*stack)->prev = NULL;
-	free(temp);
 }
 
 
 
 
+
 /**
- * nop - Does nothing
- * @stack: Double pointer to the top of the stack
- * @line_number: Line number in the Monty bytecode file
+  * fnop- nothing
+  * @head: stack head
+  * @counter: line_number
+  * Return: no return
  */
-void nop(stack_t **stack, unsigned int line_number)
+void fnop(stack_t **head, unsigned int counter)
 {
-	(void)stack;
-	(void)line_number;
+	(void) counter;
+	(void) head;
 }
